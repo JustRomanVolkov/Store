@@ -1,0 +1,54 @@
+x-postgres-variables: &postgres-variables
+  POSTGRES_DB: "${POSTGRES_DB}"
+  POSTGRES_HOST: "${POSTGRES_HOST}"
+  POSTGRES_PORT: "${POSTGRES_PORT}"
+  POSTGRES_USER: "${POSTGRES_USER}"
+  POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+
+x-django-variables: &django-variables
+  SECRET_KEY: "${SECRET_KEY}"
+  DJANGO_PORT: "${DJANGO_PORT}"
+  DEBUG: "${DEBUG}"
+  STRIPE_PUBLIC_KEY: "${STRIPE_PUBLIC_KEY}"
+  STRIPE_SECRET_KEY: "${STRIPE_SECRET_KEY}"
+
+services:
+  django:
+    container_name: ${CONTAINERS_NAME}_django
+    build: .
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py runserver 0.0.0.0:${DJANGO_PORT}"
+    environment:
+      <<: [*django-variables, *postgres-variables]
+    ports:
+      - "${DJANGO_PORT}:${DJANGO_PORT}"
+    expose:
+      - "${DJANGO_PORT}"
+    volumes:
+      - ./data/django_static/:/code/django_static/
+      - ./data/django_media/:/code/django_media/
+
+    restart: always
+    depends_on:
+      - db
+
+  db:
+    container_name: ${CONTAINERS_NAME}_db
+    image: postgres:16
+    restart: always
+    environment:
+      <<: *postgres-variables
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    expose:
+      - "${POSTGRES_PORT}"
+    volumes:
+      - ./data/pg_data:/var/lib/postgresql/data
+    command: -p ${POSTGRES_PORT}
+
+volumes:
+  django_static:
+  django_media:
+  pg_data:

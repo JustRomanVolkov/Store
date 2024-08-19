@@ -1,0 +1,38 @@
+[
+    {
+        "model": "service.Item",
+        "pk": 1,
+        "fields": {
+            "name": "Apple iPhone 14",
+            "description": "Latest model of iPhone with A15 Bionic chip and improved cameras.",
+            "price": "999.99"
+        }
+    },
+    {
+        "model": "service.Item",
+        "pk": 2,
+        "fields": {
+            "name": "Apple MacBook Pro 14\"",
+            "description": "Powerful MacBook Pro with M1 Pro chip, perfect for professionals.",
+            "price": "1999.99"
+        }
+    },
+    {
+        "model": "service.Item",
+        "pk": 3,
+        "fields": {
+            "name": "Apple Watch Series 8",
+            "description": "Latest Apple Watch with new health tracking features.",
+            "price": "499.99"
+        }
+    },
+    {
+        "model": "service.Item",
+        "pk": 4,
+        "fields": {
+            "name": "Apple AirPods Pro",
+            "description": "Noise-cancelling wireless earbuds with spatial audio.",
+            "price": "249.99"
+        }
+    }
+]
