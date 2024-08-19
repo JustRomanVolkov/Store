@@ -60,4 +60,4 @@
 - загрузка в базу данных фикстур (тестовые данные):
    ```bash
     docker exec -it shop_django python manage.py loaddata fixture.json
-```
+  ```
